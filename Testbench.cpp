@@ -40,7 +40,8 @@ int main() {
         } else if (choice == 5) {
             cout << "Tasks:\n";
             for (const auto& task : heap.getTasks()) {
-                cout << "Name: " << task.name << ", Priority: " << task.priority << ", Deadline: " << task.deadline << endl;
+                cout << "Task: " << task.name << " | Deadline: " << task.deadline
+                     << " | Priority: " << task.priority << "\n";
             }
         } else if (choice == 6) {
             cout << "Exiting...\n";
