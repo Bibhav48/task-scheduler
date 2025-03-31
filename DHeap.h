@@ -2,14 +2,15 @@
 #define DHEAP_H
 
 #include <vector>
-
+#include <string>
+#include <iostream>
 #include "Task.h"
 
 using namespace std;
 
 class DHeap {
-   private:
-    vector<Task> heap;
+   public:
+    vector<Task> getTasks();
     // Number of children per node
     int d;
 
@@ -24,6 +25,10 @@ class DHeap {
     Task getTop();
     void deleteTop();
     void buildHeap(vector<Task> tasks);
+    void deleteTask(string taskName);
+    private:
+    vector<Task> heap;
 };
 
 #endif
+
