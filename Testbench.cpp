@@ -10,7 +10,7 @@ int main() {
 
     while (true) {
         cout << "\n===== Task Scheduler =====\n";
-        cout << "1. Add Task\n2. View Top Task\n3. Remove Top Task\n4. Delete Specific Task\n5. Display All Tasks\n6. Exit\nChoose an option: ";
+        cout << "1. Add Task\n2. View Top Task\n3. Remove Top Task\n4. Delete Specific Task\n5. Display All Tasks\n6. Update\n7. Exit\nChoose an option: ";
         cin >> choice;
 
         if (choice == 1) {
@@ -44,6 +44,18 @@ int main() {
                      << " | Priority: " << task.priority << "\n";
             }
         } else if (choice == 6) {
+            string taskName;
+            cout << "Enter task name to update: ";
+            cin >> taskName;
+            Task task;
+            cout << "Enter new priority: ";
+            cin >> task.priority;
+            cout << "Enter new deadline: ";
+            cin >> task.deadline;
+            task.name = taskName;
+            heap.update(task);
+            cout << "Task updated successfully.\n";
+        } else if (choice == 7) {
             cout << "Exiting...\n";
             break;
         } else {

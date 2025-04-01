@@ -35,6 +35,7 @@
 obj
 bin
 .vscode/
+.idea/
 
 #extras
 .DS_Store

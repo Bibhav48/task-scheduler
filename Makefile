@@ -34,6 +34,11 @@ $(OBJ_DIR)/%.o: %.cpp
 
 # Run testbench
 test: $(TESTBENCH_BIN)
+
+run: $(MAIN_BIN)
+	$(MAIN_BIN)
+
+run-test: $(TESTBENCH_BIN)
 	$(TESTBENCH_BIN)
 
 # Rule to compile the testbench, excluding Testbench.cpp from main compile
@@ -45,4 +50,4 @@ $(TESTBENCH_BIN): $(OBJ_DIR)/DHeap.o $(OBJ_DIR)/Task.o $(OBJ_DIR)/Testbench.o
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-.PHONY: all clean test
+.PHONY: all clean test run run-test

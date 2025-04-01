@@ -19,9 +19,11 @@ void DHeap::heapifyUp(int index) {
 
 void DHeap::heapifyDown(int index) {
     int smallest = index;
-    for (int k = 1; k <= d; k++) {
+    for (int k = 0; k <= d; k++) {
         int c = child(index, k);
+        cout << "c: " << c << endl;
         if (c < heap.size() && heap[c] < heap[smallest]) {
+            cout << "c: " << c << endl;
             smallest = c;
         }
     }
@@ -38,6 +40,26 @@ void DHeap::buildHeap(vector<Task> tasks) {
     for (int i = (heap.size() - 1) / d; i >= 0; --i) {
         heapifyDown(i);
     }
+}
+
+void DHeap::update(Task task) {
+    for (size_t i = 0; i < heap.size(); i++) {
+        if (heap[i].name == task.name) {
+            int oldDeadline = heap[i].deadline;
+            heap[i] = task;  // Update the task
+
+            // Decide direction based on the change in deadline
+            if (task.deadline < oldDeadline) {
+                cout << "Task priority increased!\n";
+                heapifyUp(i);
+            } else {
+                cout << "Task priority decreased!\n";
+                heapifyDown(i);
+            }
+            return;
+        }
+    }
+    cout << "Task not found!\n";
 }
 
 void DHeap::insert(Task task) {

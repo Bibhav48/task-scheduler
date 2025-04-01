@@ -1,9 +1,10 @@
 #ifndef DHEAP_H
 #define DHEAP_H
 
-#include <vector>
-#include <string>
 #include <iostream>
+#include <string>
+#include <vector>
+
 #include "Task.h"
 
 using namespace std;
@@ -22,13 +23,14 @@ class DHeap {
    public:
     DHeap(int d);
     void insert(Task task);
+    void update(Task task);
     Task getTop();
     void deleteTop();
     void buildHeap(vector<Task> tasks);
     void deleteTask(string taskName);
-    private:
+
+   private:
     vector<Task> heap;
 };
 
 #endif
-
