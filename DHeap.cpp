@@ -21,9 +21,7 @@ void DHeap::heapifyDown(int index) {
     int smallest = index;
     for (int k = 0; k <= d; k++) {
         int c = child(index, k);
-        cout << "c: " << c << endl;
         if (c < heap.size() && heap[c] < heap[smallest]) {
-            cout << "c: " << c << endl;
             smallest = c;
         }
     }
