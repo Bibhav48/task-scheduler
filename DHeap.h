@@ -28,6 +28,8 @@ class DHeap {
     void deleteTop();
     void buildHeap(vector<Task> tasks);
     void deleteTask(string taskName);
+    void saveToCSV(const string& filename);
+    void loadFromCSV(const string& filename);
 
    private:
     vector<Task> heap;
