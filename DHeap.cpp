@@ -1,6 +1,8 @@
 #include "DHeap.h"
 
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 
 using namespace std;
@@ -97,4 +99,46 @@ void DHeap::deleteTask(string taskName) {
 
 vector<Task> DHeap::getTasks() {
     return heap;
+}
+
+void DHeap::saveToCSV(const string& filename) {
+    ofstream file(filename);
+    if (!file.is_open()) {
+        throw runtime_error("Unable to open file for writing: " + filename);
+    }
+
+    for (const auto& task : heap) {
+        file << task.name << "," << task.description << "," << task.deadline << "," << task.priority << "\n";
+    }
+
+    file.close();
+    cout << "Heap saved to " << filename << " successfully.\n";
+}
+
+void DHeap::loadFromCSV(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        throw runtime_error("Unable to open file for reading: " + filename);
+    }
+
+    vector<Task> tasks;
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string name, description, deadlineStr, priorityStr;
+
+        if (getline(ss, name, ',') && getline(ss, description, ',') && getline(ss, deadlineStr, ',') && getline(ss, priorityStr)) {
+            try {
+                int deadline = stoi(deadlineStr);
+                int priority = stoi(priorityStr);
+                tasks.push_back(Task{name, description, deadline, priority});
+            } catch (const invalid_argument& e) {
+                cerr << "Invalid format in CSV: " << line << endl;
+            }
+        }
+    }
+
+    file.close();
+    buildHeap(tasks);
+    cout << "Heap loaded from " << filename << " successfully.\n";
 }

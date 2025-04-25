@@ -1,3 +1,5 @@
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 
 #include "DHeap.h"
@@ -7,6 +9,22 @@ using namespace std;
 int main() {
     DHeap heap(3);
     int choice;
+    string filename = "tasks.csv";
+    // Load tasks from CSV file if it exists
+    // if file exists, load tasks
+    ifstream file(filename);
+    if (file.good()) {
+        file.close();
+        try {
+            heap.loadFromCSV(filename);
+            cout << "\nTasks loaded successfully from " << filename << ".\n";
+        } catch (runtime_error& e) {
+            cout << e.what() << endl;
+        }
+    } else {
+        file.close();
+        cout << "\nWelcome to the Task Scheduler for the first time!\n";
+    }
 
     while (true) {
         cout << "\n===== Task Scheduler =====\n";
@@ -16,7 +34,10 @@ int main() {
         if (choice == 1) {
             Task task;
             cout << "Enter task name: ";
-            cin >> task.name;
+            cin.ignore();
+            getline(cin, task.name);  // Use getline to allow spaces in the task name
+            cout << "Enter task description: ";
+            getline(cin, task.description);
             cout << "Enter priority: ";
             cin >> task.priority;
             cout << "Enter deadline: ";
@@ -38,16 +59,20 @@ int main() {
             cin >> taskName;
             heap.deleteTask(taskName);
         } else if (choice == 5) {
-            cout << "Tasks:\n";
+            cout << "\nTasks:\n";
+            cout << left << setw(35) << "Task Name" << setw(30) << "Description" << setw(10) << "Deadline" << setw(10) << "Priority" << endl;
+            cout << string(85, '-') << endl;
             for (const auto& task : heap.getTasks()) {
-                cout << "Task: " << task.name << " | Deadline: " << task.deadline
-                     << " | Priority: " << task.priority << "\n";
+                cout << left << setw(35) << task.name << setw(30) << task.description << setw(10) << task.deadline << setw(10) << task.priority << endl;
             }
         } else if (choice == 6) {
             string taskName;
             cout << "Enter task name to update: ";
-            cin >> taskName;
+            cin.ignore();
+            getline(cin, taskName);
             Task task;
+            cout << "Enter new description: ";
+            getline(cin, task.description);
             cout << "Enter new priority: ";
             cin >> task.priority;
             cout << "Enter new deadline: ";
@@ -56,6 +81,9 @@ int main() {
             heap.update(task);
             cout << "Task updated successfully.\n";
         } else if (choice == 7) {
+            cout << "Saving tasks to CSV...\n";
+            heap.saveToCSV("tasks.csv");
+            cout << "Tasks saved successfully.\n";
             cout << "Exiting...\n";
             break;
         } else {
